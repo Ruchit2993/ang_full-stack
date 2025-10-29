@@ -1,0 +1,137 @@
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+            <h4 class="mb-0">Add New User</h4>
+        </div>
+
+        <div class="card-body p-4">
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                <!-- Name -->
+                <div class="row">
+                    <div class="mb-3 col-6">
+                        <label for="name" class="form-label">First Name</label>
+                        <input type="text" id="name" formControlName="name" class="form-control"
+                            placeholder="Enter first name" />
+                        <div *ngIf="f['name'].touched && f['name'].invalid" class="text-danger small mt-1">
+                            <span *ngIf="f['name'].errors?.['required']">First Name is required.</span>
+                            <span *ngIf="f['name'].errors?.['minlength']">Minimum 3 characters required.</span>
+                        </div>
+                    </div>
+                    <!-- Name -->
+                    <div class="mb-3 col-6">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <input type="text" id="lastName" formControlName="lastName" class="form-control"
+                            placeholder="Enter Last name" />
+                        <div *ngIf="f['lastName'].touched && f['lastName'].invalid" class="text-danger small mt-1">
+                            <span *ngIf="f['lastName'].errors?.['required']">Last Name is required.</span>
+                            <span *ngIf="f['lastName'].errors?.['minlength']">Minimum 1 character required.</span>
+                        </div>
+                    </div>
+                    <!-- Email -->
+                    <div class="mb-3 col-6">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" id="email" formControlName="email" class="form-control"
+                            placeholder="Enter email" />
+                        <div *ngIf="f['email'].touched && f['email'].invalid" class="text-danger small mt-1">
+                            <span *ngIf="f['email'].errors?.['required']">Email is required.</span>
+                            <span *ngIf="f['email'].errors?.['email']">Enter a valid email address.</span>
+                        </div>
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="mb-3 col-6">
+                        <label for="mobile" class="form-label">Mobile Number</label>
+                        <input type="tel" id="mobile" formControlName="mobile" class="form-control"
+                            placeholder="Enter mobile number" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label">Country</label>
+                        <select class="form-select" formControlName="country">
+                            <option value="">Select country</option>
+                            @for (c of countries; track c) {
+                            <option [value]="c">{{c}}</option>
+                            }
+                        </select>
+                        @if ((submitted || f['country'].touched) && f['country'].invalid) {
+                        <div class="text-danger small">Required</div>
+                        }
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label d-block">Gender</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" formControlName="gender" value="Male"
+                                id="gMale">
+                            <label class="form-check-label" for="gMale">Male</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" formControlName="gender" value="Female"
+                                id="gFemale">
+                            <label class="form-check-label" for="gFemale">Female</label>
+                        </div>
+                        @if ((submitted || f['gender'].touched) && f['gender'].invalid) {
+                        <div class="text-danger small">Required</div>
+                        }
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label d-block">Hobbies</label>
+                        <div formArrayName="hobbies">
+                            @for (opt of hobbyOptions; track opt) {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox"
+                                    [formControlName]="hobbyOptions.indexOf(opt)" id="h{{hobbyOptions.indexOf(opt)}}">
+                                <label class="form-check-label" for="h{{hobbyOptions.indexOf(opt)}}">{{opt}}</label>
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <input id="regPwd" type="password" class="form-control" formControlName="password"
+                                placeholder="Enter password" />
+                            <button type="button" class="btn btn-outline-secondary" (click)="togglePassword('regPwd')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        @if ((submitted || f['password'].touched) && f['password'].invalid) {
+                        <div class="text-danger small">Password required (min 6)</div>
+                        }
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <input id="regConfirmPwd" type="password" class="form-control"
+                                formControlName="confirmPassword" placeholder="Confirm password" />
+                            <button type="button" class="btn btn-outline-secondary"
+                                (click)="togglePassword('regConfirmPwd')">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                        </div>
+                        @if (userForm.hasError('passwordMismatch') && (submitted || f['confirmPassword'].touched)) {
+                        <div class="text-danger small">Passwords do not match</div>
+                        }
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="button" class="btn btn-outline-secondary me-2" (click)="userForm.reset()">
+                        Reset
+                    </button>
+                    <button type="button" class="btn btn-primary me-2" (click)="goUsers()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
+                        Add User
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

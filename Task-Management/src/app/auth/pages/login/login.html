@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-sm" style="max-width:420px; width:100%;">
+    <div class="card-body">
+      <h4 class="card-title mb-3 text-center">Login</h4>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" formControlName="email" placeholder="Enter email" />
+          @if ((submitted || f['email'].touched) && f['email'].invalid) {
+            <div class="text-danger small mt-1">
+              Email is required and must be valid.
+            </div>
+          }
+        </div>
+
+        <div class="mb-3 position-relative">
+          <label class="form-label">Password</label>
+          <div class="input-group">
+            <input id="loginPwd" type="password" class="form-control" formControlName="password"
+              placeholder="Enter password" />
+            <button type="button" class="btn btn-outline-secondary" (click)="togglePassword('loginPwd')"
+              title="Show / hide password">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+          @if ((submitted || f['password'].touched) && f['password'].invalid) {
+            <div class="text-danger small mt-1">
+              Password is required.
+            </div>
+          }
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-primary" type="submit">Login</button>
+        </div>
+      </form>
+
+      @if (userNotFound) {
+        <div class="alert alert-warning mt-3">
+          No user found with this email. <a (click)="goRegister()" class="link-primary" style="cursor:pointer">Register
+            now</a>.
+        </div>
+      }
+
+      @if (authError) {
+        <div class="alert alert-danger mt-3">{{authError}}</div>
+      }
+
+      <div class="text-center mt-3 small">
+        Don't have an account? <a (click)="goRegister()" style="cursor:pointer">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
