@@ -5,8 +5,8 @@ export interface AppUser {
   name: string;
   lastName: string;
   email: string;
-  mobile: string;
-  country: string;
+  mobile?: string;
+  country?: string;
   password?: string;
   gender?: string;
   hobbies?: string[];

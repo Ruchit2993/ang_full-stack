@@ -21,8 +21,8 @@ export class Register implements OnInit {
 form!: FormGroup;
   submitted = false;
 
-  hobbyOptions = ['Reading', 'Sports', 'Music', 'Travel'];
-  countries = ['India', 'USA', 'UK', 'Canada'];
+  // hobbyOptions = ['Reading', 'Sports', 'Music', 'Travel'];
+  // countries = ['India', 'USA', 'UK', 'Canada'];
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute) {
     // init form after fb injection; hobbies is a FormArray of booleans
@@ -30,17 +30,17 @@ form!: FormGroup;
       name: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      mobile: ['', [Validators.required]],
-      country: ['', Validators.required],
-      gender: ['', Validators.required],
-      hobbies: this.fb.array(this.hobbyOptions.map(() => false)),
+      // mobile: ['', [Validators.required]],
+      // country: ['', Validators.required],
+      // gender: ['', Validators.required],
+      // hobbies: this.fb.array(this.hobbyOptions.map(() => false)),
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     }, { validators: passwordMatchValidator });
   }
 
   get f() { return this.form.controls; }
-  get hobbiesFA() { return this.form.get('hobbies') as FormArray; }
+  // get hobbiesFA() { return this.form.get('hobbies') as FormArray; }
 
   ngOnInit() {
     const email = this.route.snapshot.queryParamMap.get('email');
@@ -48,19 +48,21 @@ form!: FormGroup;
   }
 
   onSubmit() {
+    console.log("///")
     this.submitted = true;
     if (this.form.invalid) return;
 
     const fv = this.form.value;
+    console.log(fv,'fv')
     const name = (fv.name ?? '').toString();
     const lastName = (fv.lastName ?? '').toString();
     const email = (fv.email ?? '').toString();
-    const mobile = (fv.mobile ?? '').toString();
-    const country = (fv.country ?? '').toString();
-    const gender = (fv.gender ?? '').toString();
+    // const mobile = (fv.mobile ?? '').toString();
+    // const country = (fv.country ?? '').toString();
+    // const gender = (fv.gender ?? '').toString();
     const password = (fv.password ?? '').toString();
 
-    const selectedHobbies = this.hobbyOptions.filter((h, i) => !!this.hobbiesFA.at(i).value);
+    // const selectedHobbies = this.hobbyOptions.filter((h, i) => !!this.hobbiesFA.at(i).value);
 
     if (this.userService.findByEmail(email)) {
       alert('User with this email already exists. Please login.');
@@ -68,7 +70,12 @@ form!: FormGroup;
       return;
     }
 
-    const newUser = this.userService.add({ name, lastName, email, mobile, country, password, gender, hobbies: selectedHobbies });
+    // const newUser = this.userService.add({ name, lastName, email, mobile, country, password, gender, hobbies: selectedHobbies });
+
+    const newUser = this.userService.add({ name, lastName, email, password });
+
+    console.log(newUser);
+
     this.userService.setCurrent(newUser);
     this.router.navigate(['/users']);
   }

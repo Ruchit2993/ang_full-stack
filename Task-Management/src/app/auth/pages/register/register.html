@@ -1,55 +1,57 @@
 <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-  <div class="card shadow-sm" style="max-width:720px; width:100%;">
+  <div class="card shadow-sm" style="max-width:420px; width:100%;">
     <div class="card-body">
       <h4 class="card-title mb-3 text-center">Register</h4>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="row g-2">
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label class="form-label">First Name</label>
             <input class="form-control" formControlName="name" placeholder="Enter first name" />
             @if ((submitted || f['name'].touched) && f['name'].invalid) {
-              <div class="text-danger small">Required</div>
+            <div class="text-danger small">Required</div>
             }
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-12">
             <label class="form-label">Last Name</label>
             <input class="form-control" formControlName="lastName" placeholder="Enter last name" />
             @if ((submitted || f['lastName'].touched) && f['lastName'].invalid) {
-              <div class="text-danger small">Required</div>
+            <div class="text-danger small">Required</div>
             }
           </div>
-
-          <div class="col-md-6">
+          <!-- email -->
+          <div class="col-md-12">
             <label class="form-label">Email</label>
             <input class="form-control" formControlName="email" placeholder="Enter email" />
             @if ((submitted || f['email'].touched) && f['email'].invalid) {
-              <div class="text-danger small">Valid email required</div>
+            <div class="text-danger small">Valid email required</div>
             }
           </div>
-
-          <div class="col-md-6">
+          <!-- Mobile -->
+          <!-- <div class="col-md-6">
             <label class="form-label">Mobile</label>
             <input class="form-control" formControlName="mobile" placeholder="Enter mobile number" />
             @if ((submitted || f['mobile'].touched) && f['mobile'].invalid) {
               <div class="text-danger small">Required</div>
             }
-          </div>
+          </div> -->
 
-          <div class="col-md-4">
+          <!-- country -->
+          <!-- <div class="col-md-4">
             <label class="form-label">Country</label>
             <select class="form-select" formControlName="country">
               <option value="">Select country</option>
               @for (c of countries; track c) {
-                <option [value]="c">{{c}}</option>
+              <option [value]="c">{{c}}</option>
               }
             </select>
             @if ((submitted || f['country'].touched) && f['country'].invalid) {
-              <div class="text-danger small">Required</div>
+            <div class="text-danger small">Required</div>
             }
-          </div>
+          </div> -->
 
-          <div class="col-md-4">
+          <!-- gender -->
+          <!-- <div class="col-md-4">
             <label class="form-label d-block">Gender</label>
             <div class="form-check form-check-inline">
               <input class="form-check-input" type="radio" formControlName="gender" value="Male" id="gMale">
@@ -60,51 +62,57 @@
               <label class="form-check-label" for="gFemale">Female</label>
             </div>
             @if ((submitted || f['gender'].touched) && f['gender'].invalid) {
-              <div class="text-danger small">Required</div>
+            <div class="text-danger small">Required</div>
             }
-          </div>
+          </div> -->
 
-          <div class="col-md-4">
+          <!-- hobbies -->
+          <!-- <div class="col-md-4">
             <label class="form-label d-block">Hobbies</label>
             <div formArrayName="hobbies">
               @for (opt of hobbyOptions; track opt) {
-                <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="checkbox" [formControlName]="hobbyOptions.indexOf(opt)" id="h{{hobbyOptions.indexOf(opt)}}">
-                  <label class="form-check-label" for="h{{hobbyOptions.indexOf(opt)}}">{{opt}}</label>
-                </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" [formControlName]="hobbyOptions.indexOf(opt)"
+                  id="h{{hobbyOptions.indexOf(opt)}}">
+                <label class="form-check-label" for="h{{hobbyOptions.indexOf(opt)}}">{{opt}}</label>
+              </div>
               }
             </div>
-          </div>
+          </div> -->
 
-          <div class="col-md-6">
+          <!-- pass -->
+          <div class="col-md-12">
             <label class="form-label">Password</label>
             <div class="input-group">
-              <input id="regPwd" type="password" class="form-control" formControlName="password" placeholder="Enter password" />
+              <input id="regPwd" type="password" class="form-control" formControlName="password"
+                placeholder="Enter password" />
               <button type="button" class="btn btn-outline-secondary" (click)="togglePassword('regPwd')">
                 <i class="bi bi-eye"></i>
               </button>
             </div>
             @if ((submitted || f['password'].touched) && f['password'].invalid) {
-              <div class="text-danger small">Password required (min 6)</div>
+            <div class="text-danger small">Password required (min 6)</div>
             }
           </div>
 
-          <div class="col-md-6">
+          <!-- confirm pass -->
+          <div class="col-md-12">
             <label class="form-label">Confirm Password</label>
             <div class="input-group">
-              <input id="regConfirmPwd" type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm password" />
+              <input id="regConfirmPwd" type="password" class="form-control" formControlName="confirmPassword"
+                placeholder="Confirm password" />
               <button type="button" class="btn btn-outline-secondary" (click)="togglePassword('regConfirmPwd')">
                 <i class="bi bi-eye"></i>
               </button>
             </div>
             @if (form.hasError('passwordMismatch') && (submitted || f['confirmPassword'].touched)) {
-              <div class="text-danger small">Passwords do not match</div>
+            <div class="text-danger small">Passwords do not match</div>
             }
           </div>
         </div>
 
         <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-success" type="submit">Register</button>
+          <button class="btn btn-primary" type="submit" (click)="onSubmit()">Register</button>
         </div>
       </form>
 
