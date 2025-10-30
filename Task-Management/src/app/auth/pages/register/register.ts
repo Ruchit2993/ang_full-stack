@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup, FormArray, ValidatorFn, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../non-auth/pages/user/service/user.service';
+import { Auth } from '../../services/auth/auth';
 
 const passwordMatchValidator: ValidatorFn = (ctrl: AbstractControl) => {
   const pw = ctrl.get('password')?.value;
@@ -24,7 +25,7 @@ form!: FormGroup;
   // hobbyOptions = ['Reading', 'Sports', 'Music', 'Travel'];
   // countries = ['India', 'USA', 'UK', 'Canada'];
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private route: ActivatedRoute, private auth: Auth) {
     // init form after fb injection; hobbies is a FormArray of booleans
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -64,20 +65,29 @@ form!: FormGroup;
 
     // const selectedHobbies = this.hobbyOptions.filter((h, i) => !!this.hobbiesFA.at(i).value);
 
-    if (this.userService.findByEmail(email)) {
-      alert('User with this email already exists. Please login.');
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    // const newUser = this.userService.add({ name, lastName, email, mobile, country, password, gender, hobbies: selectedHobbies });
-
-    const newUser = this.userService.add({ name, lastName, email, password });
-
-    console.log(newUser);
-
-    this.userService.setCurrent(newUser);
-    this.router.navigate(['/users']);
+    // Try to register via backend first
+    this.auth.register({ name, email, contact: undefined, password }).subscribe({
+      next: (res) => {
+        // backend may return created user object, or some wrapper; try to find user
+        const created = (res && (res.user ?? res.data ?? res)) || { name, lastName, email };
+        // persist to local storage service for UI consistency
+        try { this.userService.add(created as any); } catch {}
+        this.userService.setCurrent(created as any);
+        this.router.navigate(['/users']);
+      },
+      error: (err) => {
+        console.error('Register API failed, falling back to local add', err);
+        // fall back to local storage behavior
+        if (this.userService.findByEmail(email)) {
+          // user exists
+          this.router.navigate(['/login']);
+          return;
+        }
+        const newUser = this.userService.add({ name, lastName, email, password });
+        this.userService.setCurrent(newUser);
+        this.router.navigate(['/users']);
+      }
+    });
   }
 
   goLogin() {

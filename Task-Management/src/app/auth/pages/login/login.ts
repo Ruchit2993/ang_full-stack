@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../../non-auth/pages/user/service/user.service';
+import { Auth } from '../../services/auth/auth';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class Login {
   userNotFound = false;
   authError = '';
 
-  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router, private auth: Auth) {
     // initialize form after fb is available
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -38,22 +39,40 @@ export class Login {
     const email = (this.form.value.email ?? '').toString();
     const password = (this.form.value.password ?? '').toString();
 
-    const user = this.userService.findByEmail(email);
-
-    if (!user) {
-      this.userNotFound = true;
-      this.router.navigate(['/register'], { queryParams: { email } });
-      return;
-    }
-
-    const auth = this.userService.authenticate(email, password);
-    if (!auth) {
-      this.authError = 'Invalid email or password.';
-      return;
-    }
-
-    this.userService.setCurrent(auth);
-    this.router.navigate(['/user']);
+    // Try backend authentication first
+    this.auth.login({ email, password }).subscribe({
+      next: (res) => {
+        // backend may return token and user; try to extract user
+        const user = (res && (res.user ?? res.data ?? res)) || this.userService.findByEmail(email);
+        if (!user) {
+          this.authError = 'Invalid email or password.';
+          return;
+        }
+        // optionally store token if present
+        try {
+          if (res && res.token) localStorage.setItem('auth_token', res.token);
+        } catch {}
+        this.userService.setCurrent(user as any);
+        this.router.navigate(['/user']);
+      },
+      error: (err) => {
+        console.error('Login API failed, falling back to local auth', err);
+        // fall back to local authentication
+        const user = this.userService.findByEmail(email);
+        if (!user) {
+          this.userNotFound = true;
+          this.router.navigate(['/register'], { queryParams: { email } });
+          return;
+        }
+        const authLocal = this.userService.authenticate(email, password);
+        if (!authLocal) {
+          this.authError = 'Invalid email or password.';
+          return;
+        }
+        this.userService.setCurrent(authLocal);
+        this.router.navigate(['/user']);
+      }
+    });
   }
 
   goRegister() {
