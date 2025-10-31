@@ -53,7 +53,7 @@ export class Login {
           if (res && res.token) localStorage.setItem('auth_token', res.token);
         } catch {}
         this.userService.setCurrent(user as any);
-        this.router.navigate(['/user']);
+        this.router.navigate(['/user-list']);
       },
       error: (err) => {
         console.error('Login API failed, falling back to local auth', err);
@@ -70,7 +70,7 @@ export class Login {
           return;
         }
         this.userService.setCurrent(authLocal);
-        this.router.navigate(['/user']);
+        this.router.navigate(['/user-list']);
       }
     });
   }

@@ -73,10 +73,10 @@ form!: FormGroup;
         // persist to local storage service for UI consistency
         try { this.userService.add(created as any); } catch {}
         this.userService.setCurrent(created as any);
-        this.router.navigate(['/users']);
+        this.router.navigate(['/user-list']);
       },
       error: (err) => {
-        console.error('Register API failed, falling back to local add', err);
+        console.error('Register API failed', err);
         // fall back to local storage behavior
         if (this.userService.findByEmail(email)) {
           // user exists
@@ -85,7 +85,7 @@ form!: FormGroup;
         }
         const newUser = this.userService.add({ name, lastName, email, password });
         this.userService.setCurrent(newUser);
-        this.router.navigate(['/users']);
+        this.router.navigate(['/user-list']);
       }
     });
   }
