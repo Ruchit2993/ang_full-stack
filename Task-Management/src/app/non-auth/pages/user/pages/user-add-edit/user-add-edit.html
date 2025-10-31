@@ -1,14 +1,16 @@
 <div class="container mt-5">
-    <div class="card shadow-lg border-0 rounded-4">
-        <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
-            <h4 class="mb-0">Add New User</h4>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white mb-4 shadow-lg rounded">
+        <div class="container-fluid ms-2">
+            <span class="navbar-brand mb-0 h1">Add User</span>
         </div>
+    </nav>
+    <div class="card shadow-lg border-0 rounded-4">
 
         <div class="card-body p-4">
             <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
                 <!-- Name -->
-                <div class="row">
-                    <div class="mb-3 col-6">
+                <div class="">
+                    <div class="mb-3">
                         <label for="name" class="form-label">First Name</label>
                         <input type="text" id="name" formControlName="name" class="form-control"
                             placeholder="Enter first name" />
@@ -18,7 +20,7 @@
                         </div>
                     </div>
                     <!-- Name -->
-                    <div class="mb-3 col-6">
+                    <div class="mb-3">
                         <label for="lastName" class="form-label">Last Name</label>
                         <input type="text" id="lastName" formControlName="lastName" class="form-control"
                             placeholder="Enter Last name" />
@@ -28,7 +30,7 @@
                         </div>
                     </div>
                     <!-- Email -->
-                    <div class="mb-3 col-6">
+                    <div class="mb-3">
                         <label for="email" class="form-label">Email Address</label>
                         <input type="email" id="email" formControlName="email" class="form-control"
                             placeholder="Enter email" />
@@ -39,13 +41,13 @@
                     </div>
 
                     <!-- Mobile -->
-                    <div class="mb-3 col-6">
+                    <div class="mb-3">
                         <label for="mobile" class="form-label">Mobile Number</label>
                         <input type="tel" id="mobile" formControlName="mobile" class="form-control"
                             placeholder="Enter mobile number" />
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="md-4">
                         <label class="form-label">Country</label>
                         <select class="form-select" formControlName="country">
                             <option value="">Select country</option>
@@ -58,7 +60,7 @@
                         }
                     </div>
 
-                    <div class="col-md-4">
+                    <!-- <div class="md-4">
                         <label class="form-label d-block">Gender</label>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" formControlName="gender" value="Male"
@@ -73,9 +75,9 @@
                         @if ((submitted || f['gender'].touched) && f['gender'].invalid) {
                         <div class="text-danger small">Required</div>
                         }
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-4">
+                    <!-- <div class="md-4">
                         <label class="form-label d-block">Hobbies</label>
                         <div formArrayName="hobbies">
                             @for (opt of hobbyOptions; track opt) {
@@ -86,9 +88,9 @@
                             </div>
                             }
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-6">
+                    <!-- <div class="md-6">
                         <label class="form-label">Password</label>
                         <div class="input-group">
                             <input id="regPwd" type="password" class="form-control" formControlName="password"
@@ -100,9 +102,9 @@
                         @if ((submitted || f['password'].touched) && f['password'].invalid) {
                         <div class="text-danger small">Password required (min 6)</div>
                         }
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-6">
+                    <!-- <div class="md-6">
                         <label class="form-label">Confirm Password</label>
                         <div class="input-group">
                             <input id="regConfirmPwd" type="password" class="form-control"
@@ -115,7 +117,7 @@
                         @if (userForm.hasError('passwordMismatch') && (submitted || f['confirmPassword'].touched)) {
                         <div class="text-danger small">Passwords do not match</div>
                         }
-                    </div>
+                    </div> -->
 
                 </div>
 

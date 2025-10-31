@@ -6,13 +6,13 @@ import { filter } from 'rxjs';
 import { Header } from './layout/component/header/header';
 import { Footer } from './layout/component/footer/footer';
 import { Sidebar } from './layout/component/sidebar/sidebar';
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule,RouterOutlet ,Header, Footer, Sidebar],
+  imports: [CommonModule,RouterOutlet ,Header, Footer, Sidebar,HttpClientModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

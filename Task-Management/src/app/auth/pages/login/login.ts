@@ -10,7 +10,9 @@ import { Auth } from '../../services/auth/auth';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.html'
+  templateUrl: './login.html',
+  styleUrl: './login.css',
+
 })
 export class Login {
   form!: FormGroup;
@@ -43,33 +45,33 @@ export class Login {
     this.auth.login({ email, password }).subscribe({
       next: (res) => {
         // backend may return token and user; try to extract user
-        const user = (res && (res.user ?? res.data ?? res)) || this.userService.findByEmail(email);
-        if (!user) {
-          this.authError = 'Invalid email or password.';
-          return;
-        }
+        // const user = (res && (res.user ?? res.data ?? res)) || this.userService.findByEmail(email);
+        // if (!user) {
+        //   this.authError = 'Invalid email or password.';
+        //   return;
+        // }
         // optionally store token if present
         try {
           if (res && res.token) localStorage.setItem('auth_token', res.token);
         } catch {}
-        this.userService.setCurrent(user as any);
+        // this.userService.setCurrent(user as any);
         this.router.navigate(['/user-list']);
       },
       error: (err) => {
         console.error('Login API failed, falling back to local auth', err);
         // fall back to local authentication
-        const user = this.userService.findByEmail(email);
-        if (!user) {
-          this.userNotFound = true;
-          this.router.navigate(['/register'], { queryParams: { email } });
-          return;
-        }
-        const authLocal = this.userService.authenticate(email, password);
-        if (!authLocal) {
-          this.authError = 'Invalid email or password.';
-          return;
-        }
-        this.userService.setCurrent(authLocal);
+        // const user = this.userService.findByEmail(email);
+        // if (!user) {
+        //   this.userNotFound = true;
+        //   this.router.navigate(['/register'], { queryParams: { email } });
+        //   return;
+        // }
+        // const authLocal = this.userService.authenticate(email, password);
+        // if (!authLocal) {
+        //   this.authError = 'Invalid email or password.';
+        //   return;
+        // }
+        // this.userService.setCurrent(authLocal);
         this.router.navigate(['/user-list']);
       }
     });
@@ -85,4 +87,9 @@ export class Login {
     if (!input) return;
     input.type = input.type === 'password' ? 'text' : 'password';
   }
+
+  goForgot(){
+    
+  }
+
 }

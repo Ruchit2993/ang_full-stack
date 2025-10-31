@@ -106,11 +106,11 @@ export class UserAddEdit {
     this.hobbiesFA.controls.forEach(ctrl => ctrl.setValue(false));
 
     // navigate back to users list
-    this.router.navigate(['/user']);
+    this.router.navigate(['/user-list']);
   }
 
   goUsers() {
-    this.router.navigate(['/user'])
+    this.router.navigate(['/user-list'])
   }
 
   togglePassword(fieldId: string) {

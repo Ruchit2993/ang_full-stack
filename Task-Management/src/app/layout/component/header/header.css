@@ -1,0 +1,13 @@
+.dropdown-menu {
+    color: #212529;
+    margin: .125rem 0 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0;
+    -webkit-box-shadow: 0 5px 15px 0 rgba(0, 0, 0, .05);
+    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, .05);
+    font-size: .875rem;
+}
+    .navbar-expand-lg .navbar-nav .dropdown-menu {
+        position: absolute;
+    }

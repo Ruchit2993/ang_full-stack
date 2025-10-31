@@ -1,32 +1,34 @@
 <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-  <div class="card shadow-sm" style="max-width:420px; width:100%;">
-    <div class="card-body">
-      <h4 class="card-title mb-3 text-center">Register</h4>
+  <div class="card shadow-lg border-0" style="max-width:420px; width:100%;">
+    <div class="card-body m-2">
+      <h4 class="card-title mb-3 text-left darkblue">Register</h4>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
         <div class="row g-2">
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <label class="form-label">First Name</label>
             <input class="form-control" formControlName="name" placeholder="Enter first name" />
             @if ((submitted || f['name'].touched) && f['name'].invalid) {
             <div class="text-danger small">Required</div>
             }
-          </div>
+          </div> -->
 
-          <div class="col-md-12">
+          <!-- <div class="col-md-12">
             <label class="form-label">Last Name</label>
             <input class="form-control" formControlName="lastName" placeholder="Enter last name" />
             @if ((submitted || f['lastName'].touched) && f['lastName'].invalid) {
             <div class="text-danger small">Required</div>
             }
-          </div>
+          </div> -->
+
           <!-- email -->
           <div class="col-md-12">
-            <label class="form-label">Email</label>
-            <input class="form-control" formControlName="email" placeholder="Enter email" />
+            <label class="form-label"><strong>Email</strong></label>
+            <input class="form-control" formControlName="email" placeholder="your@example.com" />
             @if ((submitted || f['email'].touched) && f['email'].invalid) {
             <div class="text-danger small">Valid email required</div>
             }
           </div>
+
           <!-- Mobile -->
           <!-- <div class="col-md-6">
             <label class="form-label">Mobile</label>
@@ -82,7 +84,7 @@
 
           <!-- pass -->
           <div class="col-md-12">
-            <label class="form-label">Password</label>
+            <label class="form-label"><strong>Password</strong></label>
             <div class="input-group">
               <input id="regPwd" type="password" class="form-control" formControlName="password"
                 placeholder="Enter password" />
@@ -97,7 +99,7 @@
 
           <!-- confirm pass -->
           <div class="col-md-12">
-            <label class="form-label">Confirm Password</label>
+            <label class="form-label"><strong>Confirm Password</strong></label>
             <div class="input-group">
               <input id="regConfirmPwd" type="password" class="form-control" formControlName="confirmPassword"
                 placeholder="Confirm password" />
@@ -111,14 +113,16 @@
           </div>
         </div>
 
-        <div class="d-grid gap-2 mt-3">
-          <button class="btn btn-primary" type="submit" (click)="onSubmit()">Register</button>
+        <div class="d-flex mb-3 mt-3 small darkblue">
+          <a (click)="goLogin()" style="cursor:pointer">Already have an account?</a>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button class="btn btn-darkblue text-light" type="submit"
+            (click)="onSubmit()"><strong>Register</strong></button>
         </div>
       </form>
 
-      <div class="text-center mt-3 small">
-        Already have an account? <a (click)="goLogin()" style="cursor:pointer">Login</a>
-      </div>
     </div>
   </div>
 </div>

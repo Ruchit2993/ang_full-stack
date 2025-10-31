@@ -71,20 +71,20 @@ form!: FormGroup;
         // backend may return created user object, or some wrapper; try to find user
         const created = (res && (res.user ?? res.data ?? res)) || { name, lastName, email };
         // persist to local storage service for UI consistency
-        try { this.userService.add(created as any); } catch {}
-        this.userService.setCurrent(created as any);
+        // try { this.userService.add(created as any); } catch {}
+        // this.userService.setCurrent(created as any);
         this.router.navigate(['/user-list']);
       },
       error: (err) => {
         console.error('Register API failed', err);
         // fall back to local storage behavior
-        if (this.userService.findByEmail(email)) {
+        // if (this.userService.findByEmail(email)) {
           // user exists
-          this.router.navigate(['/login']);
-          return;
-        }
-        const newUser = this.userService.add({ name, lastName, email, password });
-        this.userService.setCurrent(newUser);
+          // this.router.navigate(['/login']);
+          // return;
+        // }
+        // const newUser = this.userService.add({ name, lastName, email, password });
+        // this.userService.setCurrent(newUser);
         this.router.navigate(['/user-list']);
       }
     });
